@@ -1,7 +1,8 @@
 ---
 title: "Comparison of Roe, HLL, and HLLC Riemann Solvers in RDycore"
 collection: talks
-type: "Conference presentation"  talk_type: "Conference presentation"
+type: "Conference presentation"  
+talk_type: "Conference presentation"
 permalink: /talks/2026-06-riemann-solvers/
 venue: "41st Colorado Conference on Iterative and Multigrid Methods"
 location: "University of Colorado Boulder"
