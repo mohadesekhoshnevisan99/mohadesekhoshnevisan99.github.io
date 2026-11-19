@@ -5,90 +5,47 @@ permalink: /research/
 author_profile: true
 ---
 
-My research focuses on numerical methods for partial differential
-equations, with current projects in shallow-water simulation
-and Helmholtz Green’s functions.
+## Shallow-water simulations in RDycore
 
-## Riemann solvers for shallow-water simulations
+With Prof. Jed Brown, University of Colorado Boulder.
 
-**Working with Prof. Jed Brown**
+I compare the Roe, HLL, and HLLC Riemann solvers in RDycore to study how
+the choice of solver affects wave fronts and runtime in shallow-water
+simulations. My tests include a square dam break, flow over four mounds,
+and a flooding case in Houston.
 
-Riemann solvers determine the numerical fluxes between cells in
-finite-volume simulations. Their choice affects how accurately
-a simulation captures waves and how much computation it requires.
+[![Water depth computed with three Riemann solvers on the same mesh](/images/riemann-comparison.png)](/images/riemann-comparison.png)
 
-I work on implementing and evaluating HLL and HLLC solvers in
-RDycore, an open-source code for shallow-water and compound
-flooding simulations, and comparing them with the Roe solver.
+*Square dam-break test on a fixed mesh. Roe and HLLC produce similar
+wave fronts, while the HLL solution shows more numerical diffusion.*
 
-My tests include square dam-break problems, flow over the
-Four Mounds topography, and a Houston flooding case.
-I examine numerical diffusion, mesh refinement, and runtime.
+[Conference talk, June 2026](/talks/2026-06-riemann-solvers/) · [Slides (PDF)](/files/riemann-solvers.pdf)
 
-In the benchmarks presented in my slides, HLLC produces solutions
-close to Roe at a computational cost close to HLL. The comparisons
-also show how mesh resolution influences the differences between
-the computed solutions.
+## Quasiperiodic Green’s functions for the 2D Helmholtz equation
 
-[![Comparison of Roe, HLL, and HLLC at a fixed mesh resolution](/images/riemann-comparison.png)](/images/riemann-comparison.png)
+With Prof. Fruzsina Agocs, University of Colorado Boulder.
 
-Comparison at a fixed mesh resolution for the square dam-break
-benchmark. In this example, Roe and HLLC produce similar wave
-structures, while HLL introduces more numerical diffusion.
+I’m developing a Python implementation to compute the wave field from a
+periodic array of sources with a prescribed phase shift between neighboring
+cells. Following the formulation of Agocs and Barnett, I evaluate the three
+nearest sources directly and use a series expansion for the rest of the
+array. The figures below show three checks of the implementation.
 
-[Presentation slides](/files/riemann-solvers.pdf)
-· [Conference presentation, June 2026](/talks/2026-06-riemann-solvers/)
+[![Absolute error against a spectral reference in three convergence tests](/images/green-convergence.png)](/images/green-convergence.png)
 
----
+*Convergence against a spectral reference. From left to right, I vary the
+number of quadrature nodes, the integration cutoff, and the number of
+terms in the expansion.*
 
-## Quasiperiodic Green’s functions for the Helmholtz equation
+[![Maximum error versus cell shift and a spatial error map](/images/green-outside-cell.png)](/images/green-outside-cell.png)
 
-**Working with Prof. Fruzsina Agocs**  
-**Ongoing research**
+*Evaluation outside the central cell. The left panel shows the maximum
+error as the target is shifted by whole periods. The right panel maps
+the error across a grid of target points for period d = 1.*
 
-Quasiperiodic Green’s functions describe wave fields generated
-by repeated sources with a prescribed phase shift between cells.
-Accurate evaluation of these functions is useful for numerical
-methods for wave propagation and scattering in periodic structures.
+[![Free-space reconstruction error and the weighted contour integrand](/images/green-reconstruction.png)](/images/green-reconstruction.png)
 
-I’m developing a Python implementation for the two-dimensional
-Helmholtz equation, building on formulations by Agocs and Barnett.
-The method evaluates nearby sources directly and represents
-the remaining contributions through lattice coefficients.
-
-My current work includes convergence tests, evaluation outside
-the central cell, and inverse Floquet–Bloch integration to recover
-the free-space Green’s function. I’m also exploring doubly
-quasiperiodic formulations and checks of first spatial derivatives.
-
-### Selected numerical results
-
-These figures show checks for selected test configurations.
-Click a figure to view it at full size.
-
-#### Convergence against a spectral reference
-
-[![Convergence of the quasiperiodic Green’s function evaluation](/images/green-convergence.png)](/images/green-convergence.png)
-
-The three panels vary the number of quadrature nodes, the
-integration cutoff, and the number of expansion terms.
-For this test, the absolute discrepancy with the spectral
-reference decreases to approximately machine precision.
-
-#### Evaluation outside the central cell
-
-[![Errors for translated targets and a spatial discrepancy map](/images/green-outside-cell.png)](/images/green-outside-cell.png)
-
-The left panel shows the maximum absolute error for different
-cell shifts and periods. The right panel maps the logarithm
-of the absolute discrepancy over the tested spatial grid,
-including points outside the central cell.
-
-#### Recovering the free-space Green’s function
-
-[![Inverse Floquet–Bloch reconstruction and its weighted integrand](/images/green-reconstruction.png)](/images/green-reconstruction.png)
-
-The left panel shows the reconstruction error at four target
-points as the Floquet–Bloch quadrature is refined.
-The right panel shows the real and imaginary parts of the
-contour integrand, including its Jacobian, for one target point.
+*Inverse Floquet–Bloch reconstruction. At four target points, the error
+relative to the known free-space Green’s function decreases as I refine
+the quadrature. The right panel shows the weighted integrand at one
+of those points.*
